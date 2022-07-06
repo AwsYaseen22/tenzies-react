@@ -7,6 +7,7 @@ import "./App.css";
 function App() {
   const [dice, setDice] = React.useState(allNewDice());
   const [tenzies, setTenzies] = React.useState(false);
+  const [counter, setCounter] = React.useState(0);
 
   React.useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -40,9 +41,11 @@ function App() {
           return die.isHeld ? die : generateNewDie();
         })
       );
+      setCounter((prevCounter) => (prevCounter += 1));
     } else {
       setTenzies(false);
       setDice(allNewDice());
+      setCounter(0);
     }
   }
 
@@ -67,6 +70,7 @@ function App() {
     <main>
       {tenzies && <Confetti />}
       <h1 className="title">Tenzies</h1>
+      <h4 className="counter">Number of tries {counter}</h4>
       <div className="dice-container">{diceElements}</div>
       <button className="roll-dice" onClick={rollDice}>
         {tenzies ? "New Game" : "Roll"}
