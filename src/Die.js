@@ -8,11 +8,7 @@ export default function Die(props) {
   };
   let dots = Array(props.value)
     .fill(0)
-    .map((_, i) => <span className="dot" />);
-  //   return (
-  // <div className="die-face" style={styles} onClick={props.holdDice}>
-  //   <h2 className="die-num">{props.value}</h2>
-  // </div>
+    .map((_, i) => <span className="dot" key={i} />);
   return (
     <div className="face" style={styles} onClick={props.holdDice}>
       {dots}
