@@ -27,9 +27,30 @@ function App() {
     if (allHeld && allSameValue) {
       setTenzies(true);
       timerStop();
+      let bestTime = Number(localStorage.getItem("tenziesBestTime"));
+      let bestCount = Number(localStorage.getItem("tenziesBestCount"));
+
+      if (bestTime) {
+        if (stopWatch.time < bestTime) {
+          localStorage.setItem("tenziesBestTime", stopWatch.time);
+        }
+      } else {
+        localStorage.setItem("tenziesBestTime", stopWatch.time);
+      }
+      console.log(bestTime, bestCount);
+      // console.log(stopWatch.time, counter);
+      // console.log(stopWatch.time > bestTime, counter > bestCount);
+      if (bestCount) {
+        if (counter < bestCount) {
+          localStorage.setItem("tenziesBestCount", counter);
+        }
+      } else {
+        localStorage.setItem("tenziesBestCount", counter);
+      }
       // window.timer = false;
     }
     if (dice.filter((d) => d.isHeld).length === 1) {
+      timerReset();
       timerStart();
     }
   }, [dice]);
@@ -62,11 +83,8 @@ function App() {
       setTenzies(false);
       setDice(allNewDice());
       setCounter(0);
+      timerReset();
       timerStart();
-      // if (dice.filter((d) => d.isHeld).length === 1) {
-      //   timer = true;
-      // }
-      // setTimer(true);
     }
   }
 
@@ -91,7 +109,7 @@ function App() {
     setStopWatch((prevWatch) => {
       return {
         on: true,
-        time: Date.now(),
+        time: prevWatch.time,
         start: Date.now() - prevWatch.time,
       };
     });
@@ -106,6 +124,18 @@ function App() {
   }
 
   function timerStop() {
+    setStopWatch((prevWatch) => {
+      return {
+        ...prevWatch,
+        on: false,
+        start: 0,
+        // time: 0,
+      };
+    });
+    clearInterval(window.timer);
+  }
+
+  function timerReset() {
     setStopWatch({
       on: false,
       start: 0,
