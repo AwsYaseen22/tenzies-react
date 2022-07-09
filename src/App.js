@@ -6,6 +6,8 @@ import "./App.css";
 import StopWatch from "./StopWatch";
 
 function App() {
+  const bestTime = localStorage.getItem("tenziesBestTime");
+  const bestCount = localStorage.getItem("tenziesBestCount");
   const [dice, setDice] = React.useState(allNewDice());
   const [tenzies, setTenzies] = React.useState(false);
   const [counter, setCounter] = React.useState(0);
@@ -15,15 +17,10 @@ function App() {
     time: 0,
   });
 
-  // const [timer, setTimer] = React.useState(false);
-  // let timer;
-  // window.timer = false;
-
   React.useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
     const firstValue = dice[0].value;
     const allSameValue = dice.every((die) => die.value === firstValue);
-    // window.timer = true;
     if (allHeld && allSameValue) {
       setTenzies(true);
       timerStop();
@@ -37,9 +34,6 @@ function App() {
       } else {
         localStorage.setItem("tenziesBestTime", stopWatch.time);
       }
-      console.log(bestTime, bestCount);
-      // console.log(stopWatch.time, counter);
-      // console.log(stopWatch.time > bestTime, counter > bestCount);
       if (bestCount) {
         if (counter < bestCount) {
           localStorage.setItem("tenziesBestCount", counter);
@@ -47,7 +41,6 @@ function App() {
       } else {
         localStorage.setItem("tenziesBestCount", counter);
       }
-      // window.timer = false;
     }
     if (dice.filter((d) => d.isHeld).length === 1) {
       timerReset();
@@ -129,7 +122,6 @@ function App() {
         ...prevWatch,
         on: false,
         start: 0,
-        // time: 0,
       };
     });
     clearInterval(window.timer);
@@ -143,14 +135,18 @@ function App() {
     });
     clearInterval(window.timer);
   }
-  // }
 
   return (
     <main>
-      {tenzies && <Confetti />}
+      {tenzies && <Confetti className="confetti" />}
       <h1 className="title">Tenzies</h1>
-      <h4 className="counter">Number of tries {counter}</h4>
-      <StopWatch watchState={stopWatch} />
+      <div className="calculate">
+        <div className="Counter-display-container">
+          <h4 className="counter">Tries: {counter}</h4>
+          <h6 className="counter">Best: {bestCount}</h6>
+        </div>
+        <StopWatch watchState={stopWatch} bestTime={bestTime} />
+      </div>
       <div className="dice-container">{diceElements}</div>
       <button className="roll-dice" onClick={rollDice}>
         {tenzies ? "New Game" : "Roll"}
