@@ -54,6 +54,18 @@
 }
 
 
+@media only screen and (min-width: 200px){
+    .face {
+        margin: 2px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+}
 @media only screen and (min-width: 300px){    
     .face {
         margin: 5px;
