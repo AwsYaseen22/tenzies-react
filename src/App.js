@@ -1,6 +1,6 @@
 import React from "react";
 import Die from "./Die";
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid"; // to generate random ids
 import Confetti from "react-confetti";
 import "./App.css";
 import StopWatch from "./StopWatch";
